@@ -17,12 +17,10 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/search/{query}", name="app_search")
+     * @Route("/search", name="app_search", methods="GET")
      */
-    public function search($query): Response
+    public function search(): Response
     {
-        return $this->render('main/search.html.twig',[
-            "query" => $query,
-        ]);
+        return $this->render('main/search.html.twig');
     }
 }
