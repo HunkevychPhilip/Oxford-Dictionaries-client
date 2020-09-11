@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to home page!{% endblock %}
+
+{% block body %}
+
+    <main class="text-center">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <div role="main" class="inner cover">
+
+                <form action="{{ path('app_search')}}" method="get">
+                    <label for="word" class="cover-heading">Enter your word:</label>
+                    <input type="text" name="word" minlength="1" maxlength="30" pattern="[\w]*" required>
+                    <input type="submit" class="btn btn-secondary" value="Search">
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
