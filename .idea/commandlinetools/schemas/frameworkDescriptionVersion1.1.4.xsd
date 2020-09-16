@@ -1,0 +1,1 @@
+      <xs:element type="xs:string" name="help" minOccurs="0" maxOccurs="1"/>
