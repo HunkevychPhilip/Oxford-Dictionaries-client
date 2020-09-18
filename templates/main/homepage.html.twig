@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Welcome to home page!{% endblock %}
+{% block title %}English Words Overflow{% endblock %}
 
 {% block body %}
 
@@ -8,9 +8,22 @@
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
             <div role="main" class="inner cover">
                 <form action="{{ path('app_search')}}" method="get">
-                    <label for="word" class="cover-heading">Enter your word:</label>
-                    <input type="text" name="word" minlength="1" maxlength="30" pattern="[\w]*" required>
+
+                    <section>
+                        <label for="word" class="cover-heading">Enter your word:</label>
+                        <input type="text" name="word" minlength="1" maxlength="30" pattern="[\w]*" required>
+                    </section>
+
+                    <section>
+                        <label for="language">Language:</label>
+                        <select name="language">
+                            <option value="en-gb">British English</option>
+                            <option value="en-us">American English</option>
+                        </select>
+                    </section>
+
                     <input type="submit" class="btn btn-secondary" value="Search">
+
                 </form>
             </div>
         </div>

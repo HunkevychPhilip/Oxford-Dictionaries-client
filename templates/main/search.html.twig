@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Word search{% endblock %}
+{% block title %}English Words Overflow: {{ word }}{% endblock %}
 
 {% block body %}
 
     <main>
         <h1>To do:</h1>
         <ol>
-            <li>pass the word through the form (now it is hardcoded)</li>
             <li>add proper logic to the current twig page and make a good looking template</li>
             <li>improve logic to retrieve not only definitions and pronunciations, but also etymology or smth else</li>
             <li>add logic that handles exceptions</li>
@@ -16,22 +15,17 @@
         <h1>Logic results:</h1>
         <ul>
             Your word: <span style="font-weight: bold">{{ word }}</span>
-            <br>
+{#            <br>#}
+{#            <span style="font-weight: bold">Definitions:</span>#}
+{#            <ul>#}
+{#                <li>{{ results.0.definitions.0 }}</li>#}
+{#            </ul>#}
 
-            <span style="font-weight: bold">Definitions:</span>
-            <ul>
-                <li>{{ results.0.definitions.0 }}</li>
-                <li>{{ results.0.definitions.1 }}</li>
-                <li>{{ results.0.definitions.2 }}</li>
-                <li>{{ results.0.definitions.3 }}</li>
-                <li>{{ results.0.definitions.4 }}</li>
-            </ul>
-
-            <span style="font-weight: bold">Pronunciation:</span>
-            <br>
-            <audio controls>
-                <source src="{{ results.0.pronunciations.0.audioFile }}" type="audio/mp3">
-            </audio>
+{#            <span style="font-weight: bold">Pronunciation:</span>#}
+{#            <br>#}
+{#            <audio controls>#}
+{#                <source src="{{ results.0.pronunciations.0.audioFile }}" type="audio/mp3">#}
+{#            </audio>#}
         </ul>
     </main>
 
