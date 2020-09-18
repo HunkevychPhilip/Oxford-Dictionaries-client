@@ -3,14 +3,13 @@
 namespace App\System\Client;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 
 class GuzzleClient implements ClientInterface
 {
     private $client;
 
-    public function __construct($endpoint = 'https://od-api.oxforddictionaries.com/api/v2/', $appId = 'f719c81c', $appKey = 'd5e2e338b13634bb11c13d526dd1bfd8')
+    public function __construct($endpoint, $appId, $appKey)
     {
         $this->client = new Client([
             'base_uri' => $endpoint,

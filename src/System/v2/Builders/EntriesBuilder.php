@@ -3,6 +3,7 @@
 namespace App\System\v2\Builders;
 
 use App\System\v2\Entity\Entry;
+use http\Exception\InvalidArgumentException;
 
 class EntriesBuilder
 {
@@ -19,33 +20,42 @@ class EntriesBuilder
     public function build() : array
     {
         $entries = [];
-        foreach ($this->data->results as $item) {
-            $entries[] = $this->buildEntry($item);
+        try {
+            foreach ($this->data->results as $result) {
+                $entries[] = $this->buildEntry($result);
+            }
+        } catch (\InvalidArgumentException $e) {
+            $error = $e->getMessage();
+            header("Location: /?error=$error");
+            die();
         }
 
         return $entries;
     }
 
     /**
-     * @param $response
-     *
+     * @param $result
      * @return Entry
      */
-    private function buildEntry($response)
+    private function buildEntry($result)
     {
         $entry = new Entry();
 
-        foreach ($response->lexicalEntries as $lexicalEntry) {
+        foreach ($result->lexicalEntries as $lexicalEntry) {
             foreach ($lexicalEntry->entries as $coreInfo) {
 
-                foreach ($coreInfo->senses as $sense) {
-                    foreach ($sense->definitions as $definition) {
-                        $entry->addDefinition($definition);
+                if (isset($coreInfo->senses)) {
+                    foreach ($coreInfo->senses as $sense) {
+                        foreach ($sense->definitions as $definition) {
+                            $entry->addDefinition($definition);
+                        }
                     }
                 }
 
-                foreach ($coreInfo->pronunciations as $pronunciation) {
-                    $entry->addPronunciation($pronunciation);
+                if (isset($coreInfo->pronunciations)) {
+                    foreach ($coreInfo->pronunciations as $pronunciation) {
+                        $entry->addPronunciation($pronunciation);
+                    }
                 }
             }
         }

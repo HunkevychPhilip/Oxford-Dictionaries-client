@@ -2,18 +2,18 @@
 
 namespace App\System\v2;
 
+use App\System\v2\Entity\Entry;
 use App\System\Client\ClientException;
 use App\System\Client\ClientInterface;
 use App\System\v2\Builders\EntriesBuilder;
-use App\System\v2\Entity\Entry;
+use Symfony\Component\HttpFoundation\Request;
 
 class Dictionary
 {
     /**
      * @var ClientInterface
      */
-//    private $client;
-    public $client;
+    private $client;
 
     public function __construct(ClientInterface $client)
     {
@@ -21,9 +21,10 @@ class Dictionary
     }
 
     /**
-     * @param  string  $lang
-     * @param  string  $word
+     * @param string $lang
+     * @param string $word
      *
+     * @param Request $request
      * @return Entry[]
      * @throws DictionaryException
      */
@@ -36,16 +37,14 @@ class Dictionary
                 $word
             ));
         } catch (ClientException $e) {
-            switch ($e->getCode()) {
-                case 404:
-                    $data = null;
-                    break;
-                default:
-                    throw new DictionaryException('Something went wrong');
+            if ($e->getCode() === 404) {
+                header("Location: /?error=404:page_not_found");
+                die();
+            } else {
+                throw new DictionaryException('Something went wrong');
             }
         }
 
-        dump($data);
         return (new EntriesBuilder($data))->build();
     }
 }
