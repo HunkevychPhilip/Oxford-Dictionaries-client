@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TagCloudController!{% endblock %}
+
+{% block body %}
+<style>
+    .tagcloud {
+    width: 300px;
+    background:#000000;
+    color:#FFFFFF;
+    border: 1px solid #FFE7B6;
+    text-align:center;
+    display:inline-block;
+    width:500px;
+    
+}
+
+#tagcloud span {
+    padding: 4px;
+}
+ 
+.smallest {
+    font-size: 8px;
+}
+ 
+.small {
+    font-size: 12px;
+}
+ 
+.medium {
+    font-size:16px;
+}
+ 
+.large {
+    font-size:20px;
+}
+ 
+.largest {
+    font-size:24px;
+}
+</style>
+<div class="tagcloud">
+{% for tag in data %}
+   <span class={{ tag['class'] }}>{{ tag['title'] }}</span>
+{% endfor %}
+</div>
+
+{% endblock %}
