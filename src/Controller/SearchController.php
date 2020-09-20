@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\System\v2\Dictionary;
-use App\System\Client\GuzzleClient;
-use App\System\v2\DictionaryException;
-use Symfony\Component\Config\Definition\Exception\Exception;
+use App\Service\Client\GuzzleClient;
+use App\Service\Dictionary;
+use Symfony\Component\String\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,23 +13,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SearchController extends AbstractController
 {
     /**
-     * @Route("/search", name="app_search", methods="GET")
+     * @Route("/search", name="app_search")
+     * @param Request $request
+     *
+     * @return Response
      */
-    public function index(): Response
+    public function search( Request $request): Response
+
     {
-        $request = Request::createFromGlobals();
+        $searchForm = $request->query->all('search_form');
 
-        $word = strtolower($request->query->get('word'));
-        $lang = $request->query->get('language');
-
-        if (empty($word)) {
-            header("Location: /?error=you_must_enter_the_word");
-            die();
+        if (isset($searchForm['word'])) {
+            $word = strtolower($searchForm['word']);
+        } else {
+            throw new InvalidArgumentException('It looks like you didn\'t fill the \'word\' field!!');
         }
 
-        if (empty($lang)) {
-            header("Location: /?error=you_must_choose_language");
-            die();
+        if (isset($searchForm['language'])) {
+            $lang = $searchForm['language'];
+        } else {
+            throw new InvalidArgumentException('\'language\' field is missing!');
         }
 
         $dictionary = new Dictionary(
@@ -40,16 +42,11 @@ class SearchController extends AbstractController
                 'd5e2e338b13634bb11c13d526dd1bfd8'
             ));
 
-        try {
-            $results = $dictionary->entries($lang, $word);
-        } catch (DictionaryException $e) {
-            $error = $e->getMessage();
-            header("Location: /?error=$error");
-            die();
-        }
+        $results = $dictionary->entries($lang, $word);
 
         return $this->render('main/search.html.twig', [
             'word' => $word,
+            'language' => $lang,
             'results' => $results,
         ]);
     }

@@ -1,9 +1,8 @@
 <?php
 
-namespace App\System\Client;
+namespace App\Service\Client;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 
 class GuzzleClient implements ClientInterface
 {
@@ -26,10 +25,6 @@ class GuzzleClient implements ClientInterface
      */
     public function get(string $url)
     {
-        try {
             return json_decode($this->client->get($url)->getBody()->getContents());
-        } catch (RequestException $e) {
-            throw new ClientException($e->getMessage(), $e->getCode());
-        }
     }
 }

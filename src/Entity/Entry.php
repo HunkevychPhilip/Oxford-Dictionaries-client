@@ -1,20 +1,12 @@
 <?php
 
-namespace App\System\v2\Entity;
+namespace App\Entity;
 
 class Entry
 {
     private $definitions = [];
 
     private $pronunciations = [];
-
-    public function toArray()
-    {
-        return [
-            'definitions' => $this->definitions,
-            'pronunciations' => $this->pronunciations,
-        ];
-    }
 
     /**
      * @param $definition
@@ -40,7 +32,6 @@ class Entry
         if (!in_array($link, $this->pronunciations)) {
             $this->pronunciations[] = $link;
         }
-
         return $this;
     }
 

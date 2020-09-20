@@ -1,6 +1,6 @@
 <?php
 
-namespace App\System\Client;
+namespace App\Service\Client;
 
 interface ClientInterface
 {
