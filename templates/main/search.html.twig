@@ -5,27 +5,30 @@
 {% block body %}
 
     <main>
-        <h1>To do:</h1>
-        <ol>
-            <li>add proper logic to the current twig page and make a good looking template</li>
-            <li>improve logic to retrieve not only definitions and pronunciations, but also etymology or smth else</li>
-            <li>add logic that handles exceptions</li>
-        </ol>
+
 
         <h1>Logic results:</h1>
         <ul>
             Your word: <span style="font-weight: bold">{{ word }}</span>
-{#            <br>#}
-{#            <span style="font-weight: bold">Definitions:</span>#}
-{#            <ul>#}
-{#                <li>{{ results.0.definitions.0 }}</li>#}
-{#            </ul>#}
+            <br>
+            <span style="font-weight: bold">Definitions:</span>
 
-{#            <span style="font-weight: bold">Pronunciation:</span>#}
-{#            <br>#}
-{#            <audio controls>#}
-{#                <source src="{{ results.0.pronunciations.0.audioFile }}" type="audio/mp3">#}
-{#            </audio>#}
+            {% for definition in results.0.definitions %}
+                <li>{{ definition }}</li>
+            {% endfor %}
+
+            <span style="font-weight: bold">Pronunciation:</span>
+            <br>
+            {% for pronunciation in results.0.pronunciations %}
+                <audio controls>
+                    <source src="{{ pronunciation }}" type="audio/mp3">
+                </audio>
+            {% endfor %}
+
+
+
+
+
         </ul>
     </main>
 
