@@ -8,6 +8,9 @@ class Entry
 
     private $pronunciations = [];
 
+    private $examples = [];
+
+
     /**
      * @param $definition
      *
@@ -32,6 +35,21 @@ class Entry
         if (!in_array($link, $this->pronunciations)) {
             $this->pronunciations[] = $link;
         }
+
+        return $this;
+    }
+
+    /**
+     * @param $example
+     *
+     * @return $this
+     */
+    public function addExample($example)
+    {
+        if (!in_array($example, $this->examples)) {
+            $this->examples[] = $example;
+        }
+
         return $this;
     }
 
@@ -49,5 +67,13 @@ class Entry
     public function getPronunciations(): array
     {
         return $this->pronunciations;
+    }
+
+    /**
+     * @param array $examples
+     */
+    public function getExamples(array $examples): void
+    {
+        $this->examples = $examples;
     }
 }
