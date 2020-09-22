@@ -16,8 +16,10 @@ class SearchFormType extends AbstractType
         $builder
             ->add('word', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'for example, "run"'
-                ]
+                    'placeholder' => 'for example, "run"',
+                    'maxlength' => 30,
+                    'pattern' => "^[A-Za-z]+$"
+                ],
             ])
             ->add('language', ChoiceType::class, [
                 'choices' => [
