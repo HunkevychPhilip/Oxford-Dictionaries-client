@@ -70,10 +70,10 @@ class Entry
     }
 
     /**
-     * @param array $examples
+     * @return array
      */
-    public function getExamples(array $examples): void
+    public function getExamples(): array
     {
-        $this->examples = $examples;
+        return $this->examples;
     }
 }

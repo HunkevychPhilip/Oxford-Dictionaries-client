@@ -11,7 +11,6 @@ class EntriesBuilder
     public function __construct($data)
     {
         $this->response = $data;
-//        dd($this->response);
 
     }
 

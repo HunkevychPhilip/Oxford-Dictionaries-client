@@ -11,10 +11,15 @@
         <ul>
             Your word: <span style="font-weight: bold">{{ word }}</span>
             <br>
-            <span style="font-weight: bold">Definitions:</span>
+            <span style="font-weight: bold; color: red">Definitions:</span>
 
             {% for definition in results.0.definitions %}
                 <li>{{ definition }}</li>
+            {% endfor %}
+
+            <span style="font-weight: bold; color: red">Examples:</span>
+            {% for example in results.0.examples %}
+                <li>{{ example }}</li>
             {% endfor %}
 
             <span style="font-weight: bold">Pronunciation:</span>
