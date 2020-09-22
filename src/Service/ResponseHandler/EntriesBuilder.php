@@ -25,9 +25,11 @@ class EntriesBuilder
             foreach ($resultObject->lexicalEntries as $lexicalEntryObject) {
                 foreach ($lexicalEntryObject->entries as $entryObject) {
 
-                    foreach ($entryObject->senses as $senseObject) {
-                        foreach ($senseObject->definitions as $definitionProperty) {
-                            $entry->addDefinition($definitionProperty);
+                    if (property_exists($entryObject, 'senses')) {
+                        foreach ($entryObject->senses as $senseObject) {
+                            foreach ($senseObject->definitions as $definitionProperty) {
+                                $entry->addDefinition($definitionProperty);
+                            }
                         }
                     }
 
