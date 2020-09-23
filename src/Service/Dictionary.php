@@ -27,11 +27,8 @@ class Dictionary
     public function entries(string $lang, string $word) : array
     {
         try {
-            $data = $this->client->get(sprintf(
-                'entries/%s/%s?fields=definitions%%2Cexamples%%2Cpronunciations&strictMatch=false',
-                $lang,
-                $word
-            ));
+            $endURL = sprintf('entries/%s/%s?fields=definitions%%2Cexamples%%2Cpronunciations&strictMatch=false', $lang, $word);
+            $data = $this->client->get($endURL);
         } catch (ClientException $exception) {
             switch ($exception->getCode()) {
                 case 404:

@@ -21,7 +21,6 @@ class EntriesBuilder
     {
         $entry = new Entry();
 
-
         foreach ($this->response->results as $resultObject) {
             foreach ($resultObject->lexicalEntries as $lexicalEntryObject) {
                 foreach ($lexicalEntryObject->entries as $entryObject) {
