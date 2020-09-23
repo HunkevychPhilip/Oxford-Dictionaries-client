@@ -1,13 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Word search{% endblock %}
+{% block title %}English Words Overflow: {{ word }}{% endblock %}
 
 {% block body %}
 
-    <main class="text-center">
-        <article>
-            <p>now I need to get the word, send a request, and parse the response</p>
-        </article>
+    <main>
+
+
+        <h1>Logic results:</h1>
+        <ul>
+            Your word: <span style="font-weight: bold">{{ word }}</span>
+            <br>
+            <span style="font-weight: bold; color: red">Definitions:</span>
+
+            {% for definition in results.0.definitions %}
+                <li>{{ definition }}</li>
+            {% endfor %}
+
+            <span style="font-weight: bold; color: red">Examples:</span>
+            {% for example in results.0.examples %}
+                <li>{{ example }}</li>
+            {% endfor %}
+
+            <span style="font-weight: bold">Pronunciation:</span>
+            <br>
+            {% for pronunciation in results.0.pronunciations %}
+                <audio controls>
+                    <source src="{{ pronunciation }}" type="audio/mp3">
+                </audio>
+            {% endfor %}
+
+
+
+
+
+        </ul>
     </main>
 
 {% endblock %}
