@@ -19,19 +19,16 @@ class SearchesRepository extends ServiceEntityRepository
         parent::__construct($registry, Searches::class);
     }
 
-    // /**
-    //  * @return Searches[] Returns an array of Searches objects
-    //  */
+     /**
+      * @return Searches[] Returns an array of Searches objects
+      */
     public function findTopHighestSearch()
     {
-
         $qb = $this->createQueryBuilder('r');
 
         $qb->select('r.title', 'r.searched')
             ->orderBy('r.searched', 'DESC')
             ->setMaxResults(50);
-
-
 
         $query = $qb->getQuery();
 

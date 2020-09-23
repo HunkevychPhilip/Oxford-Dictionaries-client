@@ -14,15 +14,12 @@ class AppFixtures extends Fixture
         $faker = Factory::create();
 
         for ($i = 0; $i < 150; $i++) {
-            $searchresult = new Searches();
-            $searchresult->setTitle(
-                $faker->word(15)
-            );
-            $searchresult->setSearched($faker->randomDigit);
-            $manager->persist($searchresult);
-        
+            $searchResult = new Searches();
+            $searchResult->setTitle($faker->word(15));
+            $searchResult->setSearched($faker->randomDigit);
+            $manager->persist($searchResult);
         }
-
+        
         $manager->flush();
     }
 }
