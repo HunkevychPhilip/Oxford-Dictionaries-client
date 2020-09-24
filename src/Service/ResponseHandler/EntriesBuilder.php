@@ -11,7 +11,6 @@ class EntriesBuilder
     public function __construct($data)
     {
         $this->response = $data;
-
     }
 
     /**
@@ -19,16 +18,20 @@ class EntriesBuilder
      */
     public function build() : array
     {
-        $entry = new Entry();
+        $entries = [];
 
         foreach ($this->response->results as $resultObject) {
             foreach ($resultObject->lexicalEntries as $lexicalEntryObject) {
                 foreach ($lexicalEntryObject->entries as $entryObject) {
 
+                    $definitions = [];
+                    $pronunciations = [];
+                    $examples = [];
+
                     if (property_exists($entryObject, 'pronunciations')) {
                         foreach ($entryObject->pronunciations as $pronunciationObject) {
                             if (property_exists($pronunciationObject, 'audioFile')) {
-                                $entry->addPronunciation($pronunciationObject->audioFile);
+                                $pronunciations[] = $pronunciationObject->audioFile;
                             }
                         }
                     }
@@ -38,23 +41,26 @@ class EntriesBuilder
 
                             if (property_exists($senseObject, 'definitions')) {
                                 foreach ($senseObject->definitions as $definitionProperty) {
-                                    $entry->addDefinition($definitionProperty);
+                                    $definitions[] = $definitionProperty;
                                 }
                             }
 
                             if (property_exists($senseObject, 'examples')) {
                                 foreach ($senseObject->examples as $exampleObject) {
-                                    $entry->addExample($exampleObject->text);
+                                    $examples[] = $exampleObject->text;
                                 }
                             }
+
                         }
                     }
-
+                    $entry = new Entry();
+                    $entry->addDefinition($definitions);
+                    $entry->addExample($examples);
+                    $entry->addPronunciation($pronunciations);
+                    $entries[] = $entry;
                 }
             }
         }
-
-        $entries[] = $entry;
 
         return $entries;
     }

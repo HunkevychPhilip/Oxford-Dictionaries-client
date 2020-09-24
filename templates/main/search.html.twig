@@ -6,35 +6,35 @@
 
     <main>
 
-
-        <h1>Logic results:</h1>
+        <h4>Meaning of "{{ word }}" in the Oxford Dictionary:</h4>
         <ul>
-            Your word: <span style="font-weight: bold">{{ word }}</span>
-            <br>
-            <span style="font-weight: bold; color: red">Definitions:</span>
-
-            {% for definition in results.0.definitions %}
-                <li>{{ definition }}</li>
+            {% for result in results %}
+                        {% for definition in result.definitions %}
+                            <li>{{ definition }}</li>
+                        {% endfor %}
             {% endfor %}
-
-            <span style="font-weight: bold; color: red">Examples:</span>
-            {% for example in results.0.examples %}
-                <li>{{ example }}</li>
-            {% endfor %}
-
-            <span style="font-weight: bold">Pronunciation:</span>
-            <br>
-            {% for pronunciation in results.0.pronunciations %}
-                <audio controls>
-                    <source src="{{ pronunciation }}" type="audio/mp3">
-                </audio>
-            {% endfor %}
-
-
-
-
-
         </ul>
+
+        <h4>Examples of "{{ word }}":</h4>
+        <ul>
+            {% for result in results %}
+                {% for example in result.examples %}
+                    <li>{{ example }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+
+        <h4>Pronunciation:</h4>
+        <ul>
+            {% for result in results %}
+                {% for link in result.pronunciations %}
+                            <audio controls>
+                                <source src="{{ link }}" type="audio/mp3">
+                            </audio>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+
     </main>
 
 {% endblock %}
