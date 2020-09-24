@@ -38,8 +38,8 @@ class SearchController extends AbstractController
         $dictionary = new Dictionary(
             new GuzzleClient(
                 'https://od-api.oxforddictionaries.com/api/v2/',
-                'f719c81c',
-                'd5e2e338b13634bb11c13d526dd1bfd8'
+                '763efe18',
+                '162e8420c914b0a1e4a8d15b879249aa'
             ));
 
         $results = $dictionary->entries($lang, $word);
