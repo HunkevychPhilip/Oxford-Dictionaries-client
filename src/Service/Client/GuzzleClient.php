@@ -21,9 +21,6 @@ class GuzzleClient implements ClientInterface
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function get(string $url)
     {
         try {
