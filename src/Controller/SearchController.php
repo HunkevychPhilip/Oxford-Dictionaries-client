@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Service\Client\GuzzleClient;
 use App\Service\Dictionary;
 use Symfony\Component\String\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,22 +25,21 @@ class SearchController extends AbstractController
         $searchForm = $request->query->all('search_form');
 
         if (isset($searchForm['word'])) {
-            $word = strtolower($searchForm['word']);
+            $dictionary->setWord($searchForm['word']);
         } else {
             throw new InvalidArgumentException('It looks like you didn\'t fill the \'word\' field!!');
         }
 
         if (isset($searchForm['language'])) {
-            $lang = $searchForm['language'];
+            $dictionary->setLanguage($searchForm['language']);
         } else {
             throw new InvalidArgumentException('\'language\' field is missing!');
         }
 
-        $results = $dictionary->entries($lang, $word);
+        $results = $dictionary->entries();
 
         return $this->render('main/search.html.twig', [
-            'word' => $word,
-            'language' => $lang,
+            'word' => $dictionary->getWord(),
             'results' => $results,
         ]);
     }
