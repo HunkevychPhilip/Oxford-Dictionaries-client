@@ -3,6 +3,7 @@
 namespace App\Service\Client;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 
 class GuzzleClient implements ClientInterface
@@ -21,6 +22,11 @@ class GuzzleClient implements ClientInterface
         ]);
     }
 
+    /**
+     * @param string $url
+     * @return array|mixed
+     * @throws ClientException|GuzzleException
+     */
     public function get(string $url)
     {
         try {

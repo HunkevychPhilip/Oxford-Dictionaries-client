@@ -9,6 +9,8 @@ use App\Entity\Entry;
 
 class Dictionary
 {
+    private $word;
+    private $language;
     private $client;
 
     public function __construct(ClientInterface $client)
@@ -17,18 +19,49 @@ class Dictionary
     }
 
     /**
+     * @return string
+     */
+    public function getWord() : string
+    {
+        return $this->word;
+    }
+
+    /**
+     * @param string $word
+     */
+    public function setWord($word): void
+    {
+        $this->word = strtolower($word);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLanguage() : string
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param string $language
+     */
+    public function setLanguage($language): void
+    {
+        $this->language = $language;
+    }
+
+    /**
      * @param string $lang
      * @param string $word
      *
      * @return Entry[]
-     *
      * @throws DictionaryException
      */
-    public function entries(string $lang, string $word) : array
+    public function entries() : array
     {
         try {
-            $endURL = sprintf('%s/%s', $lang, $word);
-            $data = $this->client->get($endURL);
+            $path = sprintf('%s/%s', $this->language, $this->word);
+            $response = $this->client->get($path);
         } catch (ClientException $exception) {
             switch ($exception->getCode()) {
                 case 404:
@@ -39,6 +72,6 @@ class Dictionary
             }
         }
 
-        return (new EntriesBuilder($data))->build();
+        return (new EntriesBuilder($response))->build();
     }
 }
