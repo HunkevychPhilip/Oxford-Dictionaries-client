@@ -9,7 +9,7 @@ class GuzzleClient implements ClientInterface
 {
     private $client;
 
-    public function __construct($endpoint, $appId, $appKey)
+    public function __construct(string $endpoint, string $appId, string $appKey)
     {
         $this->client = new Client([
             'base_uri' => $endpoint,
@@ -21,9 +21,6 @@ class GuzzleClient implements ClientInterface
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function get(string $url)
     {
         try {

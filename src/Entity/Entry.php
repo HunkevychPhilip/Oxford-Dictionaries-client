@@ -19,7 +19,7 @@ class Entry
     public function addDefinition($definition)
     {
         if (!in_array($definition, $this->definitions)) {
-            $this->definitions[] = $definition;
+            $this->definitions = $definition;
         }
 
         return $this;
@@ -33,7 +33,7 @@ class Entry
     public function addPronunciation($link)
     {
         if (!in_array($link, $this->pronunciations)) {
-            $this->pronunciations[] = $link;
+            $this->pronunciations = $link;
         }
 
         return $this;
@@ -47,7 +47,7 @@ class Entry
     public function addExample($example)
     {
         if (!in_array($example, $this->examples)) {
-            $this->examples[] = $example;
+            $this->examples = $example;
         }
 
         return $this;

@@ -15,10 +15,12 @@ class SearchController extends AbstractController
     /**
      * @Route("/search", name="app_search")
      * @param Request $request
+     * @param Dictionary $dictionary
      *
      * @return Response
+     * @throws \App\Service\DictionaryException
      */
-    public function search( Request $request): Response
+    public function search(Request $request, Dictionary $dictionary): Response
 
     {
         $searchForm = $request->query->all('search_form');
@@ -34,13 +36,6 @@ class SearchController extends AbstractController
         } else {
             throw new InvalidArgumentException('\'language\' field is missing!');
         }
-
-        $dictionary = new Dictionary(
-            new GuzzleClient(
-                'https://od-api.oxforddictionaries.com/api/v2/',
-                'f719c81c',
-                'd5e2e338b13634bb11c13d526dd1bfd8'
-            ));
 
         $results = $dictionary->entries($lang, $word);
 
