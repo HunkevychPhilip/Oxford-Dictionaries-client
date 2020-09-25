@@ -27,7 +27,7 @@ class Dictionary
     public function entries(string $lang, string $word) : array
     {
         try {
-            $endURL = sprintf('entries/%s/%s', $lang, $word);
+            $endURL = sprintf('%s/%s', $lang, $word);
             $data = $this->client->get($endURL);
         } catch (ClientException $exception) {
             switch ($exception->getCode()) {
