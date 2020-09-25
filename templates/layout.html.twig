@@ -1,0 +1,8 @@
+{{ include('template-parts/header.html.twig') }}
+
+{#{{ app.request.get('_route') }}#}
+
+<main role="main" class="{% if app.request.get('_route') == "app_homepage" %}homepage justify-content-start {% else %} justify-content-center {% endif %}inner col-12 col-md-9 col-lg-6 cover m-auto d-flex flex-column">
+    {% block body %}{% endblock %}
+</main>
+{{ include('template-parts/footer.html.twig') }}
