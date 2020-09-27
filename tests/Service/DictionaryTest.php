@@ -45,11 +45,11 @@ class DictionaryTest extends TestCase
 
         foreach($result as $entry) {
             $temp = get_object_vars($entry);
-            $this->assertTrue(count($temp['definitions']) > 0);
-            $this->assertTrue(count($temp['pronunciations']) > 0);
+            $this->assertTrue(!empty($temp['pronunciations']));
+            $this->assertTrue(!empty($temp['definitions']));
 
             // we didn't ask the examples, so they should not be here
-            $this->assertFalse(count($temp['examples']) > 0);
+            $this->assertFalse(!empty($temp['examples']));
         }
     }
 
@@ -66,11 +66,11 @@ class DictionaryTest extends TestCase
 
         foreach($result as $entry) {
             $temp = get_object_vars($entry);
-            $this->assertTrue(count($temp['definitions']) > 0);
+            $this->assertTrue(!empty($temp['definitions']));
 
             // we didn't ask the pronunciations and examples, so they should not be here
-            $this->assertFalse(count($temp['pronunciations']) > 0);
-            $this->assertFalse(count($temp['examples']) > 0);
+            $this->assertFalse(!empty($temp['pronunciations']));
+            $this->assertFalse(!empty($temp['examples']));
         }
     }
 

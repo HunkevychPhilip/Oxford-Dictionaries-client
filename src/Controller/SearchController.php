@@ -36,7 +36,12 @@ class SearchController extends AbstractController
             throw new InvalidArgumentException('\'language\' field is missing!');
         }
 
-        $dictionary->setFields(['examples', 'pronunciations', 'definitions']);
+        if (isset($searchForm['fields'])) {
+            $dictionary->setFields($searchForm['fields']);
+        } else {
+            $dictionary->setFields(['definitions']);
+        }
+
         $dictionary->setStrictMatch(false);
 
         $results = $dictionary->entries();

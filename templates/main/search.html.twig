@@ -3,38 +3,53 @@
 {% block title %}English Words Overflow: {{ word }}{% endblock %}
 
 {% block body %}
-
     <main>
 
-        <h4>Meaning of "{{ word }}" in the Oxford Dictionary:</h4>
-        <ul>
-            {% for result in results %}
-                        {% for definition in result.definitions %}
-                            <li>{{ definition }}</li>
-                        {% endfor %}
-            {% endfor %}
-        </ul>
+        {% for result in results %}
+            {% if result.definitions %}
+                {% if loop.index == 1 %}
+                    <h4>№1: Meaning of "{{ word }}" in the Oxford Dictionary:</h4>
+                {% else %}
+                    <h4>№{{ loop.index }}:</h4>
+                {% endif %}
+                <ul>
+                    {% for definition in result.definitions %}
+                        <li>{{ definition }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
 
-        <h4>Examples of "{{ word }}":</h4>
-        <ul>
-            {% for result in results %}
-                {% for example in result.examples %}
-                    <li>{{ example }}</li>
-                {% endfor %}
-            {% endfor %}
-        </ul>
 
-        <h4>Pronunciation:</h4>
-        <ul>
-            {% for result in results %}
-                {% for link in result.pronunciations %}
-                            <audio controls>
-                                <source src="{{ link }}" type="audio/mp3">
-                            </audio>
-                {% endfor %}
-            {% endfor %}
-        </ul>
+        {% for result in results %}
+            {% if result.examples %}
+                {% if loop.index == 1 %}
+                    <h4>№1 Examples of "{{ word }}":</h4>
+                {% else %}
+                    <h4>№{{ loop.index }}:</h4>
+                {% endif %}
+                <ul>
+                    {% for example in result.examples %}
+                        <li>{{ example }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+
+        {% for result in results %}
+            {% if result.pronunciations %}
+                {% if loop.index == 1 %}
+                <h4>Pronunciation:</h4>
+                {% endif %}
+                <ul>
+                    {% for link in result.pronunciations %}
+                        <audio controls>
+                            <source src="{{ link }}" type="audio/mp3">
+                        </audio>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
 
     </main>
-
 {% endblock %}

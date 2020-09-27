@@ -23,7 +23,7 @@ class Dictionary
     /**
      * @return string
      */
-    public function getWord() : string
+    public function getWord(): string
     {
         return $this->word;
     }
@@ -39,7 +39,7 @@ class Dictionary
     /**
      * @return string
      */
-    public function getLanguage() : string
+    public function getLanguage(): string
     {
         return $this->language;
     }
@@ -55,7 +55,7 @@ class Dictionary
     /**
      * @return string
      */
-    public function getFields() : string
+    public function getFields(): string
     {
         return $this->fields;
     }
@@ -70,9 +70,9 @@ class Dictionary
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getStrictMatch()
+    public function getStrictMatch(): bool
     {
         return $this->strictMatch;
     }
@@ -86,13 +86,10 @@ class Dictionary
     }
 
     /**
-     * @param string $lang
-     * @param string $word
-     *
      * @return Entry[]
      * @throws DictionaryException
      */
-    public function entries() : array
+    public function entries(): array
     {
         try {
             $path = sprintf('%s/%s?%s&%s',
