@@ -4,11 +4,11 @@ namespace App\Entity;
 
 class Entry
 {
-    private $definitions = [];
+    public $definitions = [];
 
-    private $pronunciations = [];
+    public $pronunciations = [];
 
-    private $examples = [];
+    public $examples = [];
 
 
     /**

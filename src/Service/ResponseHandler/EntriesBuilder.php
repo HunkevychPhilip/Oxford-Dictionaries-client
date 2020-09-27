@@ -54,9 +54,19 @@ class EntriesBuilder
                         }
                     }
                     $entry = new Entry();
-                    $entry->addDefinition($definitions);
-                    $entry->addExample($examples);
-                    $entry->addPronunciation($pronunciations);
+
+                    if (count($definitions) > 0) {
+                        $entry->addDefinition($definitions);
+                    }
+
+                    if (count($pronunciations) > 0) {
+                        $entry->addPronunciation($pronunciations);
+                    }
+
+                    if (count($examples) > 0) {
+                        $entry->addExample($examples);
+                    }
+
                     $entries[] = $entry;
                 }
             }
