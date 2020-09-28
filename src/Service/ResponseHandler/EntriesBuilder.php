@@ -16,17 +16,18 @@ class EntriesBuilder
     /**
      * @return array
      */
-    public function build() : array
+    public function build(): array
     {
         $entries = [];
+        $pronunciationsFlags = [];
 
         foreach ($this->response->results as $resultObject) {
             foreach ($resultObject->lexicalEntries as $lexicalEntryObject) {
                 foreach ($lexicalEntryObject->entries as $entryObject) {
 
                     $definitions = [];
-                    $pronunciations = [];
                     $examples = [];
+                    $pronunciations = [];
 
                     if (property_exists($entryObject, 'pronunciations')) {
                         foreach ($entryObject->pronunciations as $pronunciationObject) {
@@ -54,9 +55,19 @@ class EntriesBuilder
                         }
                     }
                     $entry = new Entry();
-                    $entry->addDefinition($definitions);
-                    $entry->addExample($examples);
-                    $entry->addPronunciation($pronunciations);
+
+                    if (!empty($definitions)) {
+                        $entry->addDefinition($definitions);
+                    }
+
+                    if (!empty($examples)) {
+                        $entry->addExample($examples);
+                    }
+
+                    if (!empty($pronunciations)) {
+                        $entry->addPronunciation($pronunciations);
+                    }
+
                     $entries[] = $entry;
                 }
             }

@@ -36,6 +36,14 @@ class SearchController extends AbstractController
             throw new InvalidArgumentException('\'language\' field is missing!');
         }
 
+        if (isset($searchForm['fields'])) {
+            $dictionary->setFields($searchForm['fields']);
+        } else {
+            $dictionary->setFields(['definitions']);
+        }
+
+        $dictionary->setStrictMatch(false);
+
         $results = $dictionary->entries();
 
         return $this->render('main/search.html.twig', [

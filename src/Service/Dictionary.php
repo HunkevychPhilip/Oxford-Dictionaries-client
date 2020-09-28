@@ -11,6 +11,8 @@ class Dictionary
 {
     private $word;
     private $language;
+    private $fields;
+    private $strictMatch;
     private $client;
 
     public function __construct(ClientInterface $client)
@@ -21,7 +23,7 @@ class Dictionary
     /**
      * @return string
      */
-    public function getWord() : string
+    public function getWord(): string
     {
         return $this->word;
     }
@@ -37,7 +39,7 @@ class Dictionary
     /**
      * @return string
      */
-    public function getLanguage() : string
+    public function getLanguage(): string
     {
         return $this->language;
     }
@@ -51,16 +53,50 @@ class Dictionary
     }
 
     /**
-     * @param string $lang
-     * @param string $word
-     *
+     * @return string
+     */
+    public function getFields(): string
+    {
+        return $this->fields;
+    }
+
+    /**
+     * @param array $fields
+     */
+    public function setFields(array $fields): void
+    {
+        $result = 'fields=' . implode(",", $fields);
+        $this->fields = $result;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getStrictMatch(): bool
+    {
+        return $this->strictMatch;
+    }
+
+    /**
+     * @param boolean $bool
+     */
+    public function setStrictMatch(bool $bool): void
+    {
+        $this->strictMatch = $bool;
+    }
+
+    /**
      * @return Entry[]
      * @throws DictionaryException
      */
-    public function entries() : array
+    public function entries(): array
     {
         try {
-            $path = sprintf('%s/%s', $this->language, $this->word);
+            $path = sprintf('%s/%s?%s&%s',
+                $this->language,
+                $this->word,
+                $this->fields,
+                $this->strictMatch);
             $response = $this->client->get($path);
         } catch (ClientException $exception) {
             switch ($exception->getCode()) {

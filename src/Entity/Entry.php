@@ -4,53 +4,41 @@ namespace App\Entity;
 
 class Entry
 {
-    private $definitions = [];
+    public $definitions = [];
 
-    private $pronunciations = [];
+    public $pronunciations = [];
 
-    private $examples = [];
+    public $examples = [];
 
 
     /**
      * @param $definition
-     *
-     * @return $this
      */
-    public function addDefinition($definition)
+    public function addDefinition($definition): void
     {
         if (!in_array($definition, $this->definitions)) {
             $this->definitions = $definition;
         }
-
-        return $this;
     }
 
     /**
      * @param $link
-     *
-     * @return $this
      */
-    public function addPronunciation($link)
+    public function addPronunciation($link): void
     {
         if (!in_array($link, $this->pronunciations)) {
             $this->pronunciations = $link;
         }
-
-        return $this;
     }
 
     /**
      * @param $example
-     *
-     * @return $this
      */
-    public function addExample($example)
+    public function addExample($example): void
     {
         if (!in_array($example, $this->examples)) {
             $this->examples = $example;
         }
-
-        return $this;
     }
 
     /**
