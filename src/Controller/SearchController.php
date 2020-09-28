@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Searches;
 
 class SearchController extends AbstractController
 {
@@ -45,6 +46,33 @@ class SearchController extends AbstractController
         $dictionary->setStrictMatch(false);
 
         $results = $dictionary->entries();
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $word = $searchForm['word'];
+
+        $existingTitle = $entityManager->getRepository(Searches::class)->findBy(array('title' => $word));
+
+        if (empty($existingTitle)) {
+            $exists = false;
+        } else {
+            $exists = true;
+            $id =  $existingTitle[0]->getId();
+            $existingQuerys = $entityManager->getRepository(Searches::class)->find($id);
+        }
+
+
+        if ($exists == false) {
+            $saveSearch = new Searches();
+            $saveSearch->setTitle($word);
+            $saveSearch->setSearched(1);
+            $entityManager->persist($saveSearch);
+        } else {
+
+            $existingQuerys->setSearched($existingQuerys->getSearched() + 1);
+        }
+
+
+        $entityManager->flush();
 
         return $this->render('main/search.html.twig', [
             'word' => $dictionary->getWord(),
