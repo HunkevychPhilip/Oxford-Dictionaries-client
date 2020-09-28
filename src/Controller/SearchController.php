@@ -41,19 +41,17 @@ class SearchController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
         $word = $searchForm['word'];
-        /* $existingTitle = $entityManager->getRepository(Searches::class)->getExistingTitle($word);*/
+
         $existingTitle = $entityManager->getRepository(Searches::class)->findBy(array('title' => $word));
-        $id =  $existingTitle[0]->getId();
-        $existingQuerys = $entityManager->getRepository(Searches::class)->find($id);
-        
-        
-        
+
         if (empty($existingTitle)) {
             $exists = false;
         } else {
             $exists = true;
+            $id =  $existingTitle[0]->getId();
+            $existingQuerys = $entityManager->getRepository(Searches::class)->find($id);
         }
-       
+
 
         if ($exists == false) {
             $saveSearch = new Searches();
@@ -61,11 +59,10 @@ class SearchController extends AbstractController
             $saveSearch->setSearched(1);
             $entityManager->persist($saveSearch);
         } else {
-            
-            $existingQuerys->setSearched($existingQuerys->getSearched()+1);
 
+            $existingQuerys->setSearched($existingQuerys->getSearched() + 1);
         }
-        
+
 
         $entityManager->flush();
 
