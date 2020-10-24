@@ -31,7 +31,6 @@ class TagCloudController extends AbstractController
         $maximum = 0;
 
         foreach ($searches as $search) {
-
             $counter = $search['searched'];
 
             if ($counter > $maximum) {
@@ -39,19 +38,22 @@ class TagCloudController extends AbstractController
             }
 
             $percent = floor(($counter / $maximum) * 100);
-
-            if ($percent < 20) {
-                $class = 'smallest';
-            } elseif ($percent >= 20 and $percent < 40) {
-                $class = 'small';
-            } elseif ($percent >= 40 and $percent < 60) {
-                $class = 'medium';
-            } elseif ($percent >= 60 and $percent < 80) {
-                $class = 'large';
-            } else {
+            switch ($percent) {
+                case ($percent < 20):
+                    $class = 'smallest';
+                break;
+                case ($percent >= 20 and $percent < 40):
+                    $class = 'small';
+                break;
+                case ($percent >= 40 and $percent < 60):
+                    $class = 'medium';
+                break;
+                case ($percent >= 60 and $percent < 80):
+                    $class = 'large';
+                break;
+                default:
                 $class = 'largest';
             }
-
             array_push($data, ['title' => $search['title'], 'class' => $class]);
         }
 

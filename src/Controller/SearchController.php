@@ -60,17 +60,14 @@ class SearchController extends AbstractController
             $existingQuerys = $entityManager->getRepository(Searches::class)->find($id);
         }
 
-
-        if ($exists == false) {
+        if ($exists === false) {
             $saveSearch = new Searches();
             $saveSearch->setTitle($word);
             $saveSearch->setSearched(1);
             $entityManager->persist($saveSearch);
         } else {
-
             $existingQuerys->setSearched($existingQuerys->getSearched() + 1);
         }
-
 
         $entityManager->flush();
 
