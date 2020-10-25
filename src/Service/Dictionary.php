@@ -31,9 +31,17 @@ class Dictionary
     /**
      * @param string $word
      */
-    public function setWord($word): void
+    public function setWord(string $word): void
     {
         $this->word = strtolower($word);
+    }
+
+    /**
+     * @param string $language
+     */
+    public function setLanguage(string $language): void
+    {
+        $this->language = $language;
     }
 
     /**
@@ -42,14 +50,6 @@ class Dictionary
     public function getLanguage(): string
     {
         return $this->language;
-    }
-
-    /**
-     * @param string $language
-     */
-    public function setLanguage($language): void
-    {
-        $this->language = $language;
     }
 
     /**
@@ -92,6 +92,11 @@ class Dictionary
     public function entries(): array
     {
         try {
+//            $path = sprintf('%s/%s?%s&%s',
+//                $this->language,
+//                $this->word,
+//                $this->fields,
+//                $this->strictMatch);
             $path = sprintf('%s/%s?%s&%s',
                 $this->language,
                 $this->word,
@@ -107,7 +112,7 @@ class Dictionary
                     throw new DictionaryException($exception->getMessage());
             }
         }
-
+//        dd($response);
         return (new EntriesBuilder($response))->build();
     }
 }

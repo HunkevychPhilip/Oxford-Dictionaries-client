@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SearchesRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct (ManagerRegistry $registry)
     {
         parent::__construct($registry, Searches::class);
     }
@@ -29,7 +29,7 @@ class SearchesRepository extends ServiceEntityRepository
         $qb->select('r.title', 'r.searched')
             ->orderBy('r.searched', 'DESC')
             ->setMaxResults(50);
-
+            
         $query = $qb->getQuery();
 
         return $query->execute();

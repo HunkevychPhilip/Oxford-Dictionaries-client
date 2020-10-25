@@ -4,47 +4,53 @@ namespace App\Entity;
 
 class Entry
 {
-    public $definitions = [];
-
-    public $pronunciations = [];
-
-    public $examples = [];
-
+    protected $definitions = [];
+    protected $pronunciations = [];
+    protected $examples = [];
+    protected $languages = [];
 
     /**
-     * @param $definition
+     * @param string $language
      */
-    public function addDefinition($definition): void
+    public function setLanguage(string $lang): void
+    {
+        if (!in_array($lang ,$this->languages)) {
+            $this->languages[] = $lang;
+        }
+    }
+
+    /**
+     * @param string $definition
+     */
+    public function setDefinition(string $definition, string $flag): void
     {
         if (!in_array($definition, $this->definitions)) {
-            $this->definitions = $definition;
+            $this->definitions[$flag][] = $definition;
         }
     }
 
     /**
      * @param $link
      */
-    public function addPronunciation($link): void
+    public function setPronunciation($link): void
     {
         if (!in_array($link, $this->pronunciations)) {
-            $this->pronunciations = $link;
+            $this->pronunciations[] = $link;
         }
     }
 
     /**
      * @param $example
      */
-    public function addExample($example): void
+    public function setExample($example): void
     {
-        if (!in_array($example, $this->examples)) {
-            $this->examples = $example;
-        }
+        $this->examples[] = $example;
     }
 
     /**
      * @return array
      */
-    public function getDefinitions(): array
+    public function getDefinition(): array
     {
         return $this->definitions;
     }
@@ -52,7 +58,7 @@ class Entry
     /**
      * @return array
      */
-    public function getPronunciations(): array
+    public function getPronunciation(): array
     {
         return $this->pronunciations;
     }
@@ -60,8 +66,33 @@ class Entry
     /**
      * @return array
      */
-    public function getExamples(): array
+    public function getExample(): array
     {
         return $this->examples;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLanguage(): string
+    {
+        return $this->langToString($this->language);
+    }
+
+    /**
+     * @param string $lang
+     * @return string
+     */
+    public function langToString(string $lang): string
+    {
+        $flag = $this->language;
+        $result = '';
+        if ($flag === 'en-us') {
+            $result = 'American English';
+        } elseif ($flag === 'en-gb') {
+            $result = 'British English';
+        }
+
+        return $result;
     }
 }

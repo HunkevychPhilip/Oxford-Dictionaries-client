@@ -6,11 +6,11 @@ use App\Entity\Entry;
 
 class EntriesBuilder
 {
-    private $response;
+    private $data = [];
 
-    public function __construct($data)
+    public function __construct(array $response)
     {
-        $this->response = $data;
+        $this->data = $response;
     }
 
     /**
@@ -19,60 +19,63 @@ class EntriesBuilder
     public function build(): array
     {
         $entries = [];
-        $pronunciationsFlags = [];
+        $core = $this->data['results'] ? $this->data['results'] : ['Error' => '"Results" array is not found'];
 
-        foreach ($this->response->results as $resultObject) {
-            foreach ($resultObject->lexicalEntries as $lexicalEntryObject) {
-                foreach ($lexicalEntryObject->entries as $entryObject) {
+        if (in_array('Error', $core)) {
+            return $core;
+        } else {
 
-                    $definitions = [];
-                    $examples = [];
-                    $pronunciations = [];
+            $lexCategoryFlag = '';
+            $dialectFlag = '';
+            foreach ($core as $results) {
+                $entry = new Entry();
 
-                    if (property_exists($entryObject, 'pronunciations')) {
-                        foreach ($entryObject->pronunciations as $pronunciationObject) {
-                            if (property_exists($pronunciationObject, 'audioFile')) {
-                                $pronunciations[] = $pronunciationObject->audioFile;
+                $entry->setLanguage($results['language'] ?? null);
+                foreach ($results['lexicalEntries'] as $lexEntry) {
+                    if (!empty($lexEntry['lexicalCategory'])) {
+                        foreach ($lexEntry['lexicalCategory'] as $key => $lexCategory) {
+                            if ($key === 'id') {
+                                $lexCategoryFlag = $lexCategory;
                             }
                         }
                     }
-
-                    if (property_exists($entryObject, 'senses')) {
-                        foreach ($entryObject->senses as $senseObject) {
-
-                            if (property_exists($senseObject, 'definitions')) {
-                                foreach ($senseObject->definitions as $definitionProperty) {
-                                    $definitions[] = $definitionProperty;
+                    if (!empty(($lexEntry['entries']))) {
+                        foreach ($lexEntry['entries'] as $lexEntries) {
+                            if (!empty($lexEntries['senses'])) {
+                                foreach ($lexEntries['senses'] as $senses) {
+                                    if (!empty($senses['definitions'])) {
+                                        foreach ($senses['definitions'] as $definition) {
+                                            $entry->setDefinition($definition, $lexCategoryFlag);
+//                                            $exampleKeyFlag = count($this->gatheredData['definitions'][$lexCategoryFlag]) + 1;
+                                            if (!empty($senses['examples'])) {
+                                                    foreach ($senses['examples'] as $examples) {
+                                                        foreach ($examples as $key => $example) {
+                                                            if ($key === 'text') {
+                                                                $entry->setExample($example);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
-
-                            if (property_exists($senseObject, 'examples')) {
-                                foreach ($senseObject->examples as $exampleObject) {
-                                    $examples[] = $exampleObject->text;
+                            if (!empty($lexEntries['pronunciations'])) {
+                                foreach ($lexEntries['pronunciations'] as $pronunciation) {
+//                                    if (!empty($pronunciation['dialects'])) {
+//                                        $dialectFlag = $pronunciation['dialects'][0];
+//                                    }
+                                    if (!empty($pronunciation['audioFile'])) {
+                                        $entry->setPronunciation($pronunciation['audioFile']);
+                                    }
                                 }
                             }
-
                         }
-                    }
-                    $entry = new Entry();
-
-                    if (!empty($definitions)) {
-                        $entry->addDefinition($definitions);
-                    }
-
-                    if (!empty($examples)) {
-                        $entry->addExample($examples);
-                    }
-
-                    if (!empty($pronunciations)) {
-                        $entry->addPronunciation($pronunciations);
-                    }
-
-                    $entries[] = $entry;
                 }
+                $entries[] = $entry;
             }
         }
-
         return $entries;
     }
 }

@@ -21,7 +21,6 @@ class SearchController extends AbstractController
      * @throws \App\Service\DictionaryException
      */
     public function search(Request $request, Dictionary $dictionary): Response
-
     {
         $searchForm = $request->query->all('search_form');
 
@@ -47,32 +46,28 @@ class SearchController extends AbstractController
 
         $results = $dictionary->entries();
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $word = $searchForm['word'];
+        // $entityManager = $this->getDoctrine()->getManager();
+        $word = $dictionary->getWord();
+    //    $existingTitle = $entityManager->getRepository(Searches::class)->findBy(array('title' => $word));
 
-        $existingTitle = $entityManager->getRepository(Searches::class)->findBy(array('title' => $word));
+    //    if (empty($existingTitle)) {
+    //        $exists = false;
+    //    } else {
+    //        $exists = true;
+    //        $id =  $existingTitle[0]->getId();
+    //        $existingQuerys = $entityManager->getRepository(Searches::class)->find($id);
+    //    }
 
-        if (empty($existingTitle)) {
-            $exists = false;
-        } else {
-            $exists = true;
-            $id =  $existingTitle[0]->getId();
-            $existingQuerys = $entityManager->getRepository(Searches::class)->find($id);
-        }
+    //    if ($exists === false) {
+    //        $saveSearch = new Searches();
+    //        $saveSearch->setTitle($word);
+    //        $saveSearch->setSearched(1);
+    //        $entityManager->persist($saveSearch);
+    //    } else {
+    //        $existingQuerys->setSearched($existingQuerys->getSearched() + 1);
+    //    }
 
-
-        if ($exists == false) {
-            $saveSearch = new Searches();
-            $saveSearch->setTitle($word);
-            $saveSearch->setSearched(1);
-            $entityManager->persist($saveSearch);
-        } else {
-
-            $existingQuerys->setSearched($existingQuerys->getSearched() + 1);
-        }
-
-
-        $entityManager->flush();
+    //    $entityManager->flush();
 
         return $this->render('main/search.html.twig', [
             'word' => $dictionary->getWord(),
