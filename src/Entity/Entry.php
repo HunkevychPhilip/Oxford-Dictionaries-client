@@ -10,7 +10,7 @@ class Entry
     protected $languages = [];
 
     /**
-     * @param string $language
+     * @param string $lang
      */
     public function setLanguage(string $lang): void
     {
@@ -69,30 +69,5 @@ class Entry
     public function getExample(): array
     {
         return $this->examples;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLanguage(): string
-    {
-        return $this->langToString($this->language);
-    }
-
-    /**
-     * @param string $lang
-     * @return string
-     */
-    public function langToString(string $lang): string
-    {
-        $flag = $this->language;
-        $result = '';
-        if ($flag === 'en-us') {
-            $result = 'American English';
-        } elseif ($flag === 'en-gb') {
-            $result = 'British English';
-        }
-
-        return $result;
     }
 }
