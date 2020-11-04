@@ -30,7 +30,7 @@ class GuzzleClient implements ClientInterface
     public function get(string $url)
     {
         try {
-            return json_decode($this->client->get($url)->getBody()->getContents());
+            return json_decode($this->client->get($url)->getBody()->getContents(), TRUE);
         } catch (RequestException $exception) {
             switch ($exception->getCode()) {
                 case 404:

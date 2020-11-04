@@ -21,43 +21,19 @@ class Dictionary
     }
 
     /**
-     * @return string
-     */
-    public function getWord(): string
-    {
-        return $this->word;
-    }
-
-    /**
      * @param string $word
      */
-    public function setWord($word): void
+    public function setWord(string $word): void
     {
         $this->word = strtolower($word);
     }
 
     /**
-     * @return string
-     */
-    public function getLanguage(): string
-    {
-        return $this->language;
-    }
-
-    /**
      * @param string $language
      */
-    public function setLanguage($language): void
+    public function setLanguage(string $language): void
     {
         $this->language = $language;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFields(): string
-    {
-        return $this->fields;
     }
 
     /**
@@ -70,19 +46,43 @@ class Dictionary
     }
 
     /**
-     * @return bool
-     */
-    public function getStrictMatch(): bool
-    {
-        return $this->strictMatch;
-    }
-
-    /**
      * @param boolean $bool
      */
     public function setStrictMatch(bool $bool): void
     {
         $this->strictMatch = $bool;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWord(): string
+    {
+        return $this->word;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLanguage(): string
+    {
+        return $this->language;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFields(): string
+    {
+        return $this->fields;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getStrictMatch(): bool
+    {
+        return $this->strictMatch;
     }
 
     /**
