@@ -3,12 +3,10 @@
 namespace App\Controller;
 
 use App\Service\Dictionary;
-use Symfony\Component\String\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Searches;
 
 class SearchController extends AbstractController
 {
@@ -25,8 +23,9 @@ class SearchController extends AbstractController
         $searchForm = $request->query->all('search_form');
 
         $dictionary->setWord($searchForm['word']);
-        $dictionary->setLanguage($searchForm['language']);
-        $dictionary->setFields($searchForm['fields']);
+        // 3 hardcoded options bellow
+        $dictionary->setLanguage('en-us');
+        $dictionary->setFields(['pronunciations', 'definitions', 'examples']);
         $dictionary->setStrictMatch(false);
 
         $results = $dictionary->entries();
