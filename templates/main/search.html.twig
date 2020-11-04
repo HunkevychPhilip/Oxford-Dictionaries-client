@@ -5,13 +5,19 @@
 {% block body %}
 
     <main>
-        {{ dump(results) }}
+{#        {{ dump(results) }}#}
 
         {% for result in results %}
-            {{ dump(result.definition) }}
-            {% if result.definition %}
+{#            {{ dump(result.definition) }}#}
+            {% if result.definition.noun %}
+                <h4>№1: Meaning of "{{ word }}" in the Oxford Dictionary:</h4>
+
+                {% for noun in result.definition.noun %}
+                    <ol>
+                        <li>{{ noun }}</li>
+                    </ol>
+                {% endfor %}
                 {% if loop.index == 1 %}
-                    <h4>№1: Meaning of "{{ word }}" in the Oxford Dictionary:</h4>
                 {% else %}
                     <h4>№{{ loop.index }}:</h4>
                 {% endif %}
@@ -39,20 +45,20 @@
 {#            {% endif %}#}
 {#        {% endfor %}#}
 
-{#        {% for result in results %}#}
-{#            {% if result.pronunciations %}#}
-{#                {% if loop.index == 1 %}#}
-{#                <h4>Pronunciation:</h4>#}
-{#                {% endif %}#}
-{#                <ul>#}
-{#                    {% for link in result.pronunciations %}#}
-{#                        <audio controls>#}
-{#                            <source src="{{ link }}" type="audio/mp3">#}
-{#                        </audio>#}
-{#                    {% endfor %}#}
-{#                </ul>#}
-{#            {% endif %}#}
-{#        {% endfor %}#}
+        {% for result in results %}
+            {% if result.pronunciation %}
+                {% if loop.index == 1 %}
+                <h4>Pronunciation:</h4>
+                {% endif %}
+                <ul>
+                    {% for link in result.pronunciation %}
+                        <audio controls>
+                            <source src="{{ link }}" type="audio/mp3">
+                        </audio>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
 
     </main>
 {% endblock %}
