@@ -21,14 +21,6 @@ class Dictionary
     }
 
     /**
-     * @return string
-     */
-    public function getWord(): string
-    {
-        return $this->word;
-    }
-
-    /**
      * @param string $word
      */
     public function setWord(string $word): void
@@ -42,6 +34,31 @@ class Dictionary
     public function setLanguage(string $language): void
     {
         $this->language = $language;
+    }
+
+    /**
+     * @param array $fields
+     */
+    public function setFields(array $fields): void
+    {
+        $result = 'fields=' . implode(",", $fields);
+        $this->fields = $result;
+    }
+
+    /**
+     * @param boolean $bool
+     */
+    public function setStrictMatch(bool $bool): void
+    {
+        $this->strictMatch = $bool;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWord(): string
+    {
+        return $this->word;
     }
 
     /**
@@ -61,28 +78,11 @@ class Dictionary
     }
 
     /**
-     * @param array $fields
-     */
-    public function setFields(array $fields): void
-    {
-        $result = 'fields=' . implode(",", $fields);
-        $this->fields = $result;
-    }
-
-    /**
      * @return bool
      */
     public function getStrictMatch(): bool
     {
         return $this->strictMatch;
-    }
-
-    /**
-     * @param boolean $bool
-     */
-    public function setStrictMatch(bool $bool): void
-    {
-        $this->strictMatch = $bool;
     }
 
     /**
@@ -92,11 +92,6 @@ class Dictionary
     public function entries(): array
     {
         try {
-//            $path = sprintf('%s/%s?%s&%s',
-//                $this->language,
-//                $this->word,
-//                $this->fields,
-//                $this->strictMatch);
             $path = sprintf('%s/%s?%s&%s',
                 $this->language,
                 $this->word,
@@ -112,7 +107,7 @@ class Dictionary
                     throw new DictionaryException($exception->getMessage());
             }
         }
-//        dd($response);
+
         return (new EntriesBuilder($response))->build();
     }
 }
